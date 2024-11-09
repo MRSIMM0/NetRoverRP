@@ -4,7 +4,7 @@ from flask_cors import CORS
 from streamer.Streamer import stream_camera
 import threading
 from gamepad.Gamepad import Gamepad
-from program.Program import send_message, start_program
+from program.Program import receive_message, start_program
 import eventlet
 
 app = Flask(__name__)
@@ -25,7 +25,7 @@ def handle_disconnect():
 @socketio.on('gamepad')
 def handle_message(msg):
     gamepad = Gamepad.map_json_to_gamepad(msg)
-    send_message(gamepad)
+    receive_message(gamepad)
 
 if __name__ == '__main__':
     eventlet.monkey_patch()
