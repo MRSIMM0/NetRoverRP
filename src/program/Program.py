@@ -32,14 +32,35 @@ def set_up_pins():
     GPIO.output(STEERING_RIGHT, GPIO.HIGH)
 
 def receive_message(gamepad: Gamepad):
+    handle_steering(gamepad)
+
+
+def handle_steering(gamepad: Gamepad):
     x ,y = gamepad.LEFT_STICK.axis
-    if x > 0.8:
+    if x < -0.8:
         GPIO.output(STEERING_RIGHT, GPIO.LOW)
         GPIO.output(STEERING_LEFT, GPIO.HIGH)
-    elif x < -0.8:
+    elif x > 0.8:
         GPIO.output(STEERING_LEFT, GPIO.LOW)
         GPIO.output(STEERING_RIGHT, GPIO.HIGH)
     else:
         GPIO.output(STEERING_LEFT, GPIO.HIGH)
         GPIO.output(STEERING_RIGHT, GPIO.HIGH)
 
+def handle_throttle(gamepad: Gamepad):
+    foward = gamepad.RIGHT_TRIGGER.pressed
+    backward = gamepad.LEFT_TRIGGER.pressed
+    brake = gamepad.A_BUTTON.pressed
+
+    if(brake):
+        GPIO.output(THROTTLE_FORWARD, GPIO.HIGH)
+        GPIO.output(THROTTLE_BACKWARD, GPIO.HIGH)
+    elif(foward):
+        GPIO.output(THROTTLE_FORWARD, GPIO.HIGH)
+        GPIO.output(THROTTLE_BACKWARD, GPIO.LOW)
+    elif(backward):
+        GPIO.output(THROTTLE_FORWARD, GPIO.LOW)
+        GPIO.output(THROTTLE_BACKWARD, GPIO.HIGH)
+    else:
+        GPIO.output(THROTTLE_FORWARD, GPIO.LOW)
+        GPIO.output(THROTTLE_BACKWARD, GPIO.LOW)
