@@ -29,4 +29,4 @@ def handle_message(msg):
 
 if __name__ == '__main__':
     eventlet.monkey_patch()
-    socketio.run(app, debug=True, port=5000)
+    socketio.run(app, debug=True, port=5000, host='0.0.0.0')
