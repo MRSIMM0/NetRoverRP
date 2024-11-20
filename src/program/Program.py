@@ -9,8 +9,8 @@ except RuntimeError:
     print("Error importing RPi.GPIO! This is probably because you need superuser privileges. You can achieve this by using sudo to run your script")
 
 
-THROTTLE_FORWARD = 23
-THROTTLE_BACKWARD = 18
+THROTTLE_FORWARD = 18
+THROTTLE_BACKWARD = 23
 
 STEERING_LEFT = 19
 STEERING_RIGHT = 22
@@ -33,7 +33,7 @@ def set_up_pins():
 
 def receive_message(gamepad: Gamepad):
     handle_steering(gamepad)
-
+    handle_throttle(gamepad)
 
 def handle_steering(gamepad: Gamepad):
     x ,y = gamepad.LEFT_STICK.axis
@@ -51,7 +51,6 @@ def handle_throttle(gamepad: Gamepad):
     foward = gamepad.RIGHT_TRIGGER.pressed
     backward = gamepad.LEFT_TRIGGER.pressed
     brake = gamepad.A_BUTTON.pressed
-
     if(brake):
         GPIO.output(THROTTLE_FORWARD, GPIO.HIGH)
         GPIO.output(THROTTLE_BACKWARD, GPIO.HIGH)
